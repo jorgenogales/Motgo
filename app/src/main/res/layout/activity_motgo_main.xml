@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".app.main.MotgoMain">
+
+  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:name="com.alovola.motgo.app.main.fragments.MotgoMapFragment"
+            android:id="@+id/mapFragment"
+            android:tag="mapFragmentTag"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"/>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:orientation="vertical"
+                android:gravity="center"
+                tools:context=".app.main.MotgoMain">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="GPS Location"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/gpsValue"
+          android:text="GPS"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Speed"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/speedValue"
+          android:text=""
+          android:paddingRight="5dp"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Max speed"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/maxSpeedValue"
+          android:text=""
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Acceleration max / min"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/xAccValue"
+          android:text="X acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/yAccValue"
+          android:text="Y acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/zAccValue"
+          android:text="Z Acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Orientation max / min"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/xOrientationValue"
+          android:text="X"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/yOrientationValue"
+          android:text="Y"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/zOrientationValue"
+          android:text="Z"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Acceleration current values"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/xAccCurrentValue"
+          android:text="X acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/yAccCurrentValue"
+          android:text="Y acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/zAccCurrentValue"
+          android:text="Z Acc"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Orientation current values"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/xOrientationCurrentValue"
+          android:text="X"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/yOrientationCurrentValue"
+          android:text="Y"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/zOrientationCurrentValue"
+          android:text="Z"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Current offsets"
+          android:textStyle="bold"
+          android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  tools:context=".app.main.MotgoMain">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/xOffset"
+          android:text="X"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/yOffset"
+          android:text="Y"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/zOffset"
+          android:text="Z"
+          android:paddingRight="5dp"
+          android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  tools:context=".app.main.MotgoMain">
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Start ride"
+          android:id="@+id/startButton"
+          android:paddingRight="5dp"/>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Stop ride"
+          android:id="@+id/stopButton"/>
+
+
+    </LinearLayout>
+  </LinearLayout>
+
+</LinearLayout>
