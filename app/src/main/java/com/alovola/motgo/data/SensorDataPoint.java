@@ -3,11 +3,10 @@ package com.alovola.motgo.data;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Class storing all relevant sensor + location information
+ * Class storing all relevant sensor + location info
  */
 public class SensorDataPoint
 {
