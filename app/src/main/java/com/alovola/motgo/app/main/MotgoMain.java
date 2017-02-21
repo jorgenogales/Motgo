@@ -26,9 +26,6 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 public class MotgoMain extends AppCompatActivity {
 
@@ -67,8 +64,8 @@ public class MotgoMain extends AppCompatActivity {
     registerReceiver(accelerationDataManager,
         new IntentFilter(MotgoSensorsService.MOTGO_BROADCAST + MotgoSensorsService.SENSOR_TYPE_ACC));
 
-    ((Button)findViewById(R.id.startButton)).setOnClickListener(new StartButtonListener());
-    ((Button)findViewById(R.id.stopButton)).setOnClickListener(new StopButtonListener());
+    findViewById(R.id.startButton).setOnClickListener(new StartButtonListener());
+    findViewById(R.id.stopButton).setOnClickListener(new StopButtonListener());
   }
 
   private void checkPermissions() {
