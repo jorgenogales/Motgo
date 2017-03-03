@@ -185,4 +185,8 @@ public class MotgoMainViewHelper implements OnMapReadyCallback {
       this.map.addPolyline(routeMap);
     }
   }
+
+  public void runOnUIThread (Runnable runnable) {
+    this.main.runOnUiThread(runnable);
+  }
 }

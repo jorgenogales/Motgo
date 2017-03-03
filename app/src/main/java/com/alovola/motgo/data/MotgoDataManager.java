@@ -37,11 +37,12 @@ public abstract class MotgoDataManager extends BroadcastReceiver {
     super();
   }
 
-  public MotgoDataManager(MotgoMainViewHelper viewHelper, MotgoLocationManager locationManager) {
+  public MotgoDataManager(MotgoMainViewHelper viewHelper, MotgoLocationManager locationManager,
+                          SensorDataPointList sensorDataPoints) {
     super();
     this.viewHelper = viewHelper;
     this.locationManager = locationManager;
-    this.sensorDataPoints = new SensorDataPointList();
+    this.sensorDataPoints = sensorDataPoints;
   }
 
   /**

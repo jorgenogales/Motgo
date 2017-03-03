@@ -1,9 +1,7 @@
 package com.alovola.motgo.data;
 
-import android.content.Context;
-
 import com.alovola.motgo.app.main.MotgoMainViewHelper;
-
+import com.alovola.motgo.data.SensorDataPoint.SensorDataType;
 /**
  * Class intended to handle sensor events and add location information to each of those
  */
@@ -13,8 +11,10 @@ public class MotgoAccelerationDataManager extends MotgoDataManager {
     super();
   }
 
-  public MotgoAccelerationDataManager(MotgoMainViewHelper viewHelper, MotgoLocationManager locationManager) {
-    super(viewHelper, locationManager);
+  public MotgoAccelerationDataManager(MotgoMainViewHelper viewHelper,
+                                      MotgoLocationManager locationManager,
+                                      SensorDataPointList sensorDataPoints) {
+    super(viewHelper, locationManager, sensorDataPoints);
   }
 
   /**
@@ -37,6 +37,7 @@ public class MotgoAccelerationDataManager extends MotgoDataManager {
     );
 
     sensorDataPoints.add(new SensorDataPoint(
+        SensorDataType.ACCELERATION,
         millis,
         new float[]{
             sensorValues[0],

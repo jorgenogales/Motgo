@@ -1,6 +1,7 @@
 package com.alovola.motgo.data;
 
 import com.alovola.motgo.app.main.MotgoMainViewHelper;
+import com.alovola.motgo.data.SensorDataPoint.SensorDataType;
 
 /**
  * Class intended to handle sensor events and add location information to each of those
@@ -17,8 +18,10 @@ public class MotgoOrientationDataManager extends MotgoDataManager {
     super();
   }
 
-  public MotgoOrientationDataManager(MotgoMainViewHelper viewHelper, MotgoLocationManager locationManager) {
-    super(viewHelper, locationManager);
+  public MotgoOrientationDataManager(MotgoMainViewHelper viewHelper,
+                                     MotgoLocationManager locationManager,
+                                     SensorDataPointList sensorDataPoints) {
+    super(viewHelper, locationManager, sensorDataPoints);
   }
 
   public void calibrate() {
@@ -44,6 +47,7 @@ public class MotgoOrientationDataManager extends MotgoDataManager {
           sensorValues[2] - zOffset
       );
       sensorDataPoints.add(new SensorDataPoint(
+          SensorDataType.ORIENTATION,
           millis,
           new float[]{
               sensorValues[0] - xOffset,

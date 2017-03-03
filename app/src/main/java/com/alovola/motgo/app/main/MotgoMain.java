@@ -9,13 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.alovola.motgo.R;
 import com.alovola.motgo.data.MotgoAccelerationDataManager;
-import com.alovola.motgo.data.MotgoDataManager;
 import com.alovola.motgo.data.MotgoLocationManager;
 import com.alovola.motgo.data.MotgoOrientationDataManager;
 import com.alovola.motgo.data.SensorDataPoint;
@@ -26,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class MotgoMain extends AppCompatActivity {
 
@@ -33,6 +31,7 @@ public class MotgoMain extends AppCompatActivity {
   private MotgoLocationManager locationManager;
   private MotgoOrientationDataManager orientationDataManager;
   private MotgoAccelerationDataManager accelerationDataManager;
+  private SensorDataPointList sensorDataPoints;
   private final int MY_PERMISSIONS_REQUEST = 1;
   private Intent motgoService;
 
@@ -43,21 +42,22 @@ public class MotgoMain extends AppCompatActivity {
     setContentView(R.layout.activity_motgo_main);
     checkPermissions();
     this.viewHelper = new MotgoMainViewHelper(this);
+    this.sensorDataPoints = new SensorDataPointList();
 
     // Starting location manager
     this.locationManager = new MotgoLocationManager(this.viewHelper,
-        this.getApplicationContext());
+        this.getApplicationContext(), false);
 
     motgoService = new Intent(getApplicationContext(), MotgoSensorsService.class);
     startService(motgoService);
 
     // Starting orientation events manager
     this.orientationDataManager = new MotgoOrientationDataManager(this.viewHelper,
-        this.locationManager);
+        this.locationManager, this.sensorDataPoints);
 
     // Starting acceleration events manager
     this.accelerationDataManager = new MotgoAccelerationDataManager(this.viewHelper,
-        this.locationManager);
+        this.locationManager, this.sensorDataPoints);
 
     registerReceiver(orientationDataManager,
         new IntentFilter(MotgoSensorsService.MOTGO_BROADCAST + MotgoSensorsService.SENSOR_TYPE_ORIENTATION));
@@ -121,8 +121,6 @@ public class MotgoMain extends AppCompatActivity {
       locationManager.pause();
 
       viewHelper.toast("STOP - Gathering ride info");
-      SensorDataPointList orientationDataPoints =
-          orientationDataManager.getSensorDataPoints();
       SensorDataPointList accelerationDataPoints =
           accelerationDataManager.getSensorDataPoints();
       Calendar calendar = Calendar.getInstance();
@@ -130,8 +128,7 @@ public class MotgoMain extends AppCompatActivity {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
       String date = dateFormat.format(calendar.getTime());
       try {
-        orientationDataPoints.writeToFile(date + "-orientation.csv", getApplicationContext());
-        accelerationDataPoints.writeToFile(date + "-acceleration.csv", getApplicationContext());
+        accelerationDataPoints.writeToFile(date + "-motgo-ride.csv", getApplicationContext());
       } catch (Exception e) {
         Log.e(MotgoMain.class.toString(), "Exception when writing files", e);
       }

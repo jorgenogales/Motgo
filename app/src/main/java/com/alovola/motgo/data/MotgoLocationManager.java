@@ -15,11 +15,48 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class intended to handle location changes.
  */
 public class MotgoLocationManager {
+
+
+  class FakeLocationUIUpdater implements Runnable {
+    public FakeLocationUIUpdater(){}
+
+    public void run() {
+      viewHelper.printSpeedValues(speed, maxSpeed);
+      viewHelper.drawRoute(locationList);
+      viewHelper.setGpsValue(latitude, longitude);
+    }
+  }
+
+  class FakeLocationProvider implements Runnable {
+    private final int INIT_SPEED = 70;
+    private final float INIT_LONGITUDE = 3.7038F;
+    private final float INIT_LATITUDE = 40.4168F;
+
+    FakeLocationProvider() {}
+    public void run() {
+      Random random = new Random();
+      try {
+        while (true) {
+          waitingForMovement = false;
+          speed = INIT_SPEED * (1 + ((random.nextBoolean() ? 1 : -1) * random.nextFloat()));
+          maxSpeed = (speed > maxSpeed) ? speed : maxSpeed;
+          latitude = INIT_LATITUDE + ((random.nextBoolean() ? 1 : -1) * random.nextFloat() / 1000);
+          longitude = INIT_LONGITUDE + ((random.nextBoolean() ? 1 : -1) * random.nextFloat() / 1000);
+          locationList.add(new LatLng(latitude, longitude));
+          viewHelper.runOnUIThread(new FakeLocationUIUpdater());
+          Log.d(MotgoLocationManager.class.getName(),
+              String.format("New GPS position received %f,%f", latitude, longitude));
+          Thread.sleep(500, 0);
+        }
+      } catch (InterruptedException e) {}
+    }
+  }
 
   protected MotgoMainViewHelper viewHelper;
   protected LocationManager locationManager;
@@ -41,12 +78,13 @@ public class MotgoLocationManager {
     super();
   }
 
-  public MotgoLocationManager(MotgoMainViewHelper viewHelper, Context context) {
+  public MotgoLocationManager(MotgoMainViewHelper viewHelper, Context context,
+                              boolean fakeLocation) {
     super();
     this.viewHelper = viewHelper;
     this.context = context;
     this.locationList = Lists.newArrayList();
-    this.initLocation();
+    this.initLocation(fakeLocation);
     this.waitingForMovement = true;
     this.onPause = true;
     this.speed = 0;
@@ -66,57 +104,68 @@ public class MotgoLocationManager {
   /**
    * Initiates the GPS location manager and gets periodic updates on the location
    */
-  private void initLocation() {
-    viewHelper.setGpsValue(latitude, longitude);
-    this.locationManager = (LocationManager) this.context.getSystemService(Context.LOCATION_SERVICE);
-    try {
-      Location latestLocation = this.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-      if (latestLocation != null) {
-        latitude = latestLocation.getLatitude();
-        longitude = latestLocation.getLongitude();
+  private void initFakeLocation() {
+
+  }
+
+  /**
+   * Initiates the GPS location manager and gets periodic updates on the location
+   */
+  private void initLocation(boolean fakeLocation) {
+    if (fakeLocation) {
+      new Thread(new FakeLocationProvider()).start();
+    } else {
+      viewHelper.setGpsValue(latitude, longitude);
+      this.locationManager = (LocationManager) this.context.getSystemService(Context.LOCATION_SERVICE);
+      try {
+        Location latestLocation = this.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (latestLocation != null) {
+          latitude = latestLocation.getLatitude();
+          longitude = latestLocation.getLongitude();
+        }
+      } catch (SecurityException e) {
+        Log.e(MotgoLocationManager.class.getName(), "Problem when starting location", e);
       }
-    } catch (SecurityException e) {
-      Log.e(MotgoLocationManager.class.getName(), "Problem when starting location", e);
-    }
 
-    LocationListener locationListener = new LocationListener() {
-      public void onLocationChanged(Location location) {
-        speed = location.getSpeed() * 3600 / 1000;
-        maxSpeed = (speed > maxSpeed) ? speed : maxSpeed;
-        if (!onPause && speed > 0 && LocationManager.GPS_PROVIDER.equals(location.getProvider())) {
-          waitingForMovement = false;
+      LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+          speed = location.getSpeed() * 3600 / 1000;
+          maxSpeed = (speed > maxSpeed) ? speed : maxSpeed;
+          if (!onPause && speed > 0 && LocationManager.GPS_PROVIDER.equals(location.getProvider())) {
+            waitingForMovement = false;
 
-          viewHelper.printSpeedValues(speed, maxSpeed);
-          latitude = location.getLatitude();
-          longitude = location.getLongitude();
-          locationList.add(new LatLng(latitude, longitude));
-          viewHelper.drawRoute(locationList);
-          viewHelper.setGpsValue(latitude, longitude);
-          Log.d(MotgoLocationManager.class.getName(),
-              String.format("New GPS position received %.6f,%.6f", latitude, longitude));
-        } else {
-          waitingForMovement = true;
-          if (speed <= 0) {
-            viewHelper.printSpeedValues(0, 0);
+            viewHelper.printSpeedValues(speed, maxSpeed);
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            locationList.add(new LatLng(latitude, longitude));
+            viewHelper.drawRoute(locationList);
+            viewHelper.setGpsValue(latitude, longitude);
+            Log.d(MotgoLocationManager.class.getName(),
+                String.format("New GPS position received %f,%f", latitude, longitude));
+          } else {
+            waitingForMovement = true;
+            if (speed <= 0) {
+              viewHelper.printSpeedValues(0, 0);
+            }
           }
         }
-      }
 
-      public void onStatusChanged(String provider, int status, Bundle extras) {
-      }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
 
-      public void onProviderEnabled(String provider) {
-      }
+        public void onProviderEnabled(String provider) {
+        }
 
-      public void onProviderDisabled(String provider) {
-      }
-    };
+        public void onProviderDisabled(String provider) {
+        }
+      };
 
-    try {
-      // Register the listener with the Location Manager to receive frequent (0,0) location updates
-      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-    } catch (SecurityException e) {
-      Log.e(MotgoLocationManager.class.getName(), "Problem when receiving GPS location", e);
+      try {
+        // Register the listener with the Location Manager to receive frequent (0,0) location updates
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+      } catch (SecurityException e) {
+        Log.e(MotgoLocationManager.class.getName(), "Problem when receiving GPS location", e);
+      }
     }
   }
 
@@ -148,4 +197,5 @@ public class MotgoLocationManager {
   public void clearLocations() {
     this.locationList.clear();
   }
+
 }
