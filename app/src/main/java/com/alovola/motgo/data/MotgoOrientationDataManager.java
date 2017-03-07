@@ -2,6 +2,7 @@ package com.alovola.motgo.data;
 
 import com.alovola.motgo.app.main.MotgoMainViewHelper;
 import com.alovola.motgo.data.SensorDataPoint.SensorDataType;
+import com.google.common.base.Optional;
 
 /**
  * Class intended to handle sensor events and add location information to each of those
@@ -49,10 +50,9 @@ public class MotgoOrientationDataManager extends MotgoDataManager {
       sensorDataPoints.add(new SensorDataPoint(
           SensorDataType.ORIENTATION,
           millis,
-          new float[]{
-              sensorValues[0] - xOffset,
-              sensorValues[1] - yOffset,
-              sensorValues[2] - zOffset},
+          Optional.of(sensorValues[2] - zOffset),
+          Optional.<Float>absent(),
+          Optional.<Float>absent(),
           locationManager.getLatitude(),
           locationManager.getLongitude(),
           locationManager.getSpeed()

@@ -1,21 +1,15 @@
 package com.alovola.motgo.app.main;
 
 import android.graphics.Color;
-import android.hardware.Sensor;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alovola.motgo.R;
-import com.alovola.motgo.data.SensorDataPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -142,32 +136,6 @@ public class MotgoMainViewHelper implements OnMapReadyCallback {
 
   public void toast (String text) {
     Toast.makeText(this.main.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-  }
-
-  //Draw the orientation & acceleration datapoints along with the max & min values
-  public void drawOrientationAcceleration(ArrayList<SensorDataPoint> orientationDataPoints,
-                      ArrayList<SensorDataPoint> accelerationDataPoints) {
-    if (mapReady) {
-      this.clearMap();
-      PolylineOptions orientationRoute = new PolylineOptions()
-          .width(15)
-          .color(Color.BLUE)
-          .geodesic(true);
-
-      for (SensorDataPoint dataPoint : orientationDataPoints) {
-        orientationRoute.add(new LatLng(dataPoint.getLatitude(), dataPoint.getLongitude()));
-      }
-      PolylineOptions accelerationRoute = new PolylineOptions()
-          .width(15)
-          .color(Color.RED)
-          .geodesic(true);
-
-      for (SensorDataPoint dataPoint : orientationDataPoints) {
-        accelerationRoute.add(new LatLng(dataPoint.getLatitude(), dataPoint.getLongitude()));
-      }
-      this.map.addPolyline(orientationRoute);
-      this.map.addPolyline(accelerationRoute);
-    }
   }
 
   //Draw the orientation & acceleration datapoints along with the max & min values

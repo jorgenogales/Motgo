@@ -2,6 +2,8 @@ package com.alovola.motgo.data;
 
 import com.alovola.motgo.app.main.MotgoMainViewHelper;
 import com.alovola.motgo.data.SensorDataPoint.SensorDataType;
+import com.google.common.base.Optional;
+
 /**
  * Class intended to handle sensor events and add location information to each of those
  */
@@ -39,10 +41,9 @@ public class MotgoAccelerationDataManager extends MotgoDataManager {
     sensorDataPoints.add(new SensorDataPoint(
         SensorDataType.ACCELERATION,
         millis,
-        new float[]{
-            sensorValues[0],
-            sensorValues[1],
-            sensorValues[2]},
+        Optional.<Float>absent(),
+        Optional.of(sensorValues[0]),
+        Optional.of(sensorValues[1]),
         locationManager.getLatitude(),
         locationManager.getLongitude(),
         locationManager.getSpeed()

@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,7 +15,6 @@ import com.alovola.motgo.R;
 import com.alovola.motgo.data.MotgoAccelerationDataManager;
 import com.alovola.motgo.data.MotgoLocationManager;
 import com.alovola.motgo.data.MotgoOrientationDataManager;
-import com.alovola.motgo.data.SensorDataPoint;
 import com.alovola.motgo.data.SensorDataPointList;
 import com.alovola.motgo.phone.MotgoSensorsService;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,16 +22,15 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 
 public class MotgoMain extends AppCompatActivity {
 
+  private final int MY_PERMISSIONS_REQUEST = 1;
   private MotgoMainViewHelper viewHelper;
   private MotgoLocationManager locationManager;
   private MotgoOrientationDataManager orientationDataManager;
   private MotgoAccelerationDataManager accelerationDataManager;
   private SensorDataPointList sensorDataPoints;
-  private final int MY_PERMISSIONS_REQUEST = 1;
   private Intent motgoService;
 
   @Override
@@ -46,7 +44,7 @@ public class MotgoMain extends AppCompatActivity {
 
     // Starting location manager
     this.locationManager = new MotgoLocationManager(this.viewHelper,
-        this.getApplicationContext(), false);
+        this.getApplicationContext(), true);
 
     motgoService = new Intent(getApplicationContext(), MotgoSensorsService.class);
     startService(motgoService);
@@ -132,10 +130,7 @@ public class MotgoMain extends AppCompatActivity {
       } catch (Exception e) {
         Log.e(MotgoMain.class.toString(), "Exception when writing files", e);
       }
-        ArrayList<LatLng> locations = locationManager.getLocations();
-      //viewHelper.drawOrientationAcceleration(orientationDataPoints, accelerationDataPoints);
-      orientationDataManager.clearDataPoints();
-      accelerationDataManager.clearDataPoints();
+      ArrayList<LatLng> locations = locationManager.getLocations();
       locationManager.clearLocations();
 
       viewHelper.drawRoute(locations);
